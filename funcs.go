@@ -1,8 +1,6 @@
 package timezones
 
-import (
-	"time"
-)
+import "time"
 
 func LocationByZonename(zonename string) (l *time.Location) {
 	z := ZoneinfoByName(zonename)
@@ -28,6 +26,18 @@ func ZoneinfoByOffset(offset int) (r *Zoneinfo) {
 	for _, z := range AllZones {
 		if offset == z.Offset {
 			r = z
+			return
+		}
+	}
+	return
+}
+
+func ZoneinfoByOffsetAndCityName(offset int, cityName string) (r *Zoneinfo) {
+	r = ZoneinfoByOffset(offset)
+	if cityName != "" {
+		zi := ZoneinfoByName(cityName)
+		if zi != nil && zi.Offset == r.Offset {
+			r = zi
 			return
 		}
 	}
