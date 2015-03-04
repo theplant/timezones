@@ -12,6 +12,16 @@ func LocationByZonename(zonename string) (l *time.Location) {
 	return
 }
 
+func TzLocationByZonename(zonename string) (l *time.Location) {
+	z := ZoneinfoByName(zonename)
+	if z == nil {
+		l = time.UTC
+		return
+	}
+	l = time.FixedZone(z.TzName, z.Offset*60*60)
+	return
+}
+
 func ZoneinfoByName(zonename string) (r *Zoneinfo) {
 	for _, z := range AllZones {
 		if zonename == z.Name {
